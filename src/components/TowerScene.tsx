@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { useTowerControls, selectParams } from '../state/useTowerControls'
-import { applyTowerParams, createTowerMesh } from '../lib/towerBuilder'
+import { createTowerMesh, updateTowerGeometry } from '../lib/towerBuilder'
 
-const disposeMesh = (mesh: THREE.InstancedMesh) => {
+const disposeMesh = (mesh: THREE.Mesh) => {
   mesh.geometry.dispose()
   const { material } = mesh
   if (Array.isArray(material)) {
@@ -44,7 +44,7 @@ export const TowerScene = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
   const controlsRef = useRef<OrbitControls | null>(null)
   const sceneRef = useRef<THREE.Scene | null>(null)
-  const towerRef = useRef<THREE.InstancedMesh | null>(null)
+  const towerRef = useRef<THREE.Mesh | null>(null)
   const animationRef = useRef<number | null>(null)
   const params = useTowerControls(selectParams)
   const [sceneReady, setSceneReady] = useState(false)
@@ -56,8 +56,8 @@ export const TowerScene = () => {
     }
 
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color('#040712')
-    scene.fog = new THREE.Fog('#040712', 60, 220)
+    scene.background = new THREE.Color('#0a1124')
+    scene.fog = new THREE.Fog('#0a1124', 80, 260)
     sceneRef.current = scene
 
     const renderer = new THREE.WebGLRenderer({
@@ -67,6 +67,8 @@ export const TowerScene = () => {
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1.1
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setSize(container.clientWidth, container.clientHeight)
     container.appendChild(renderer.domElement)
@@ -79,15 +81,20 @@ export const TowerScene = () => {
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
     controls.maxPolarAngle = Math.PI * 0.52
+    controls.autoRotate = params.autoRotate
+    controls.autoRotateSpeed = 0.45
     controls.target.set(0, params.totalHeight * 0.25, 0)
     controls.update()
     controlsRef.current = controls
 
-    const hemiLight = new THREE.HemisphereLight('#a8c7ff', '#080808', 0.55)
+    const ambientLight = new THREE.AmbientLight('#8aa0d8', 0.35)
+    scene.add(ambientLight)
+
+    const hemiLight = new THREE.HemisphereLight('#a8c7ff', '#080808', 0.65)
     scene.add(hemiLight)
 
-    const keyLight = new THREE.DirectionalLight('#ffffff', 1.35)
-    keyLight.position.set(30, 60, 10)
+    const keyLight = new THREE.DirectionalLight('#ffffff', 1.55)
+    keyLight.position.set(32, 70, 18)
     keyLight.castShadow = true
     keyLight.shadow.camera.left = -40
     keyLight.shadow.camera.right = 40
@@ -98,19 +105,27 @@ export const TowerScene = () => {
     keyLight.shadow.mapSize.set(1024, 1024)
     scene.add(keyLight)
 
-    const rimLight = new THREE.DirectionalLight('#6ec7ff', 0.45)
-    rimLight.position.set(-40, 50, -30)
+    const rimLight = new THREE.DirectionalLight('#6ec7ff', 0.6)
+    rimLight.position.set(-48, 55, -30)
     scene.add(rimLight)
+
+    const fillLight = new THREE.PointLight('#86a5ff', 0.6, 220)
+    fillLight.position.set(-26, 30, 24)
+    scene.add(fillLight)
+
+    const warmBounce = new THREE.PointLight('#ffb38a', 0.45, 200)
+    warmBounce.position.set(18, 15, -28)
+    scene.add(warmBounce)
 
     const ground = new THREE.Mesh(
       new THREE.CircleGeometry(140, 72),
-      new THREE.MeshStandardMaterial({ color: '#080b16', roughness: 0.95, metalness: 0 }),
+      new THREE.MeshStandardMaterial({ color: '#0c1224', roughness: 0.92, metalness: 0.05 }),
     )
     ground.rotation.x = -Math.PI / 2
     ground.receiveShadow = true
     scene.add(ground)
 
-    const grid = new THREE.GridHelper(160, 80, 0x1a243b, 0x0f1627)
+    const grid = new THREE.GridHelper(160, 80, 0x22355b, 0x111b33)
     grid.position.y = 0.01
     scene.add(grid)
     fadeGridMaterial(grid.material, 0.35)
@@ -151,6 +166,9 @@ export const TowerScene = () => {
       keyLight.dispose()
       rimLight.dispose()
       hemiLight.dispose()
+      ambientLight.dispose()
+      fillLight.dispose()
+      warmBounce.dispose()
     }
   }, [])
 
@@ -160,29 +178,19 @@ export const TowerScene = () => {
     }
 
     const scene = sceneRef.current
-    const needsNewMesh =
-      !towerRef.current ||
-      typeof towerRef.current.userData.capacity !== 'number' ||
-      params.floors > towerRef.current.userData.capacity
 
-    if (needsNewMesh) {
-      if (towerRef.current) {
-        scene.remove(towerRef.current)
-        disposeMesh(towerRef.current)
-        towerRef.current = null
-      }
+    if (!towerRef.current) {
       const mesh = createTowerMesh(params)
-      mesh.userData.capacity = params.floors
       scene.add(mesh)
       towerRef.current = mesh
       return
     }
 
-    if (towerRef.current) {
-      applyTowerParams(towerRef.current, params)
-    }
+    updateTowerGeometry(towerRef.current, params)
 
     if (controlsRef.current) {
+      controlsRef.current.autoRotate = params.autoRotate
+      controlsRef.current.autoRotateSpeed = 0.45
       controlsRef.current.target.y = params.totalHeight * 0.25
       controlsRef.current.update()
     }

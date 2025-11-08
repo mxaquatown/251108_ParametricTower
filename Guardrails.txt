@@ -1,6 +1,6 @@
 Don't push to github unless I tell you to.
 Don't pull from github unless I tell you to.
-Always push and pull with git from my account mrainville1618 with the email mrainville1.618@gmail.com
+Always push and pull with git from my account mxaquatown with the email mxaquatown@gmail.com
 Be brief, concise, and avoid long summeries and filler words in your responses to save token useage.
 Make sure the document title matches the repository name so the browser tab always shows the repo name.
 On the first git push make sure the default main branch is named main, do not change the name to anything else.

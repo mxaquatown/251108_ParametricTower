@@ -12,11 +12,15 @@ const toControlValues = (params: TowerParams) => ({
   floors: params.floors,
   totalHeight: params.totalHeight,
   baseRadius: params.baseRadius,
+  slabThickness: params.slabThickness,
+  floorSides: params.floorSides,
+  autoRotate: params.autoRotate,
   twistMin: params.twistMin,
   twistMax: params.twistMax,
   scaleMin: params.scaleMin,
   scaleMax: params.scaleMax,
-  gradientMode: params.gradientMode,
+  twistGradient: params.twistGradient,
+  scaleGradient: params.scaleGradient,
   colorStart: params.colorStart,
   colorEnd: params.colorEnd,
 })
@@ -51,6 +55,22 @@ export const ControlsPanel = () => {
       step: 0.1,
       onChange: (value: number) => setParam('baseRadius', value),
     },
+    slabThickness: {
+      label: 'Slab Thickness',
+      value: defaults.slabThickness,
+      min: 0.2,
+      max: 5,
+      step: 0.05,
+      onChange: (value: number) => setParam('slabThickness', value),
+    },
+    floorSides: {
+      label: 'Sides Per Floor',
+      value: defaults.floorSides,
+      min: 3,
+      max: 10,
+      step: 1,
+      onChange: (value: number) => setParam('floorSides', Math.round(value)),
+    },
     twistMin: {
       label: 'Twist Min (deg)',
       value: defaults.twistMin,
@@ -66,6 +86,17 @@ export const ControlsPanel = () => {
       max: 720,
       step: 1,
       onChange: (value: number) => setParam('twistMax', value),
+    },
+    twistGradient: {
+      label: 'Twist Gradient',
+      value: defaults.twistGradient,
+      options: {
+        Linear: 'linear',
+        'Ease In': 'easeIn',
+        'Ease Out': 'easeOut',
+        'Ease In-Out': 'easeInOut',
+      },
+      onChange: (value: TowerParams['twistGradient']) => setParam('twistGradient', value),
     },
     scaleMin: {
       label: 'Scale Min',
@@ -83,15 +114,16 @@ export const ControlsPanel = () => {
       step: 0.01,
       onChange: (value: number) => setParam('scaleMax', value),
     },
-    gradientMode: {
-      label: 'Gradient Mode',
-      value: defaults.gradientMode,
+    scaleGradient: {
+      label: 'Scale Gradient',
+      value: defaults.scaleGradient,
       options: {
         Linear: 'linear',
         'Ease In': 'easeIn',
         'Ease Out': 'easeOut',
+        'Ease In-Out': 'easeInOut',
       },
-      onChange: (value: TowerParams['gradientMode']) => setParam('gradientMode', value),
+      onChange: (value: TowerParams['scaleGradient']) => setParam('scaleGradient', value),
     },
     colorStart: {
       label: 'Bottom Color',
@@ -102,6 +134,11 @@ export const ControlsPanel = () => {
       label: 'Top Color',
       value: defaults.colorEnd,
       onChange: (value: string) => setParam('colorEnd', value),
+    },
+    autoRotate: {
+      label: 'Auto Rotate',
+      value: defaults.autoRotate,
+      onChange: (value: boolean) => setParam('autoRotate', value),
     },
   })
 

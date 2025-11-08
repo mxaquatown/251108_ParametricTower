@@ -1,18 +1,22 @@
 import { create } from 'zustand'
 
-export type GradientMode = 'linear' | 'easeIn' | 'easeOut'
+export type GradientMode = 'linear' | 'easeIn' | 'easeOut' | 'easeInOut'
 
 export type TowerParams = {
   floors: number
   totalHeight: number
   baseRadius: number
+  slabThickness: number
+  floorSides: number
+  autoRotate: boolean
   twistMin: number
   twistMax: number
+  twistGradient: GradientMode
   scaleMin: number
   scaleMax: number
+  scaleGradient: GradientMode
   colorStart: string
   colorEnd: string
-  gradientMode: GradientMode
 }
 
 type TowerStore = {
@@ -26,13 +30,17 @@ const baseDefaults: TowerParams = {
   floors: 48,
   totalHeight: 160,
   baseRadius: 6,
+  slabThickness: 1.1,
+  floorSides: 10,
+  autoRotate: false,
   twistMin: 0,
   twistMax: 260,
+  twistGradient: 'linear',
   scaleMin: 0.4,
   scaleMax: 1,
+  scaleGradient: 'easeOut',
   colorStart: '#54d2ff',
   colorEnd: '#ff8ccf',
-  gradientMode: 'linear',
 }
 
 export const createDefaultParams = (): TowerParams => ({
