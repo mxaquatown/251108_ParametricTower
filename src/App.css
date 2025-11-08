@@ -1,0 +1,145 @@
+.app {
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 20%, #1a2449 0%, #05060d 45%);
+  color: #e8f0ff;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.app__header {
+  padding: 2rem 2rem 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  margin: 0;
+  color: #7ea0ff;
+}
+
+.app__header h1 {
+  margin: 0.25rem 0;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+.subtitle {
+  margin: 0;
+  color: #a8b8dd;
+  max-width: 52ch;
+}
+
+.badge-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.app__layout {
+  flex: 1;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 2rem 2rem 2rem;
+  min-height: 0;
+}
+
+.viewport {
+  flex: 1;
+  background: rgba(7, 9, 18, 0.9);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.45);
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.tower-scene {
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar {
+  width: min(360px, 100%);
+  max-width: 360px;
+  background: rgba(6, 8, 16, 0.85);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  backdrop-filter: blur(20px);
+  align-self: stretch;
+  display: flex;
+}
+
+.controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.controls-panel h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.controls-panel p {
+  margin: 0;
+  color: #a2b4dc;
+}
+
+.controls-panel small {
+  color: #7b8aa9;
+}
+
+.controls-panel__reset {
+  margin-top: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(126, 160, 255, 0.5);
+  background: linear-gradient(120deg, rgba(126, 160, 255, 0.2), rgba(255, 138, 207, 0.15));
+  color: #e6edff;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+
+.controls-panel__reset:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 960px) {
+  .app__layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .app__header {
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  .app__layout {
+    padding: 0 1.5rem 1.5rem;
+  }
+}
