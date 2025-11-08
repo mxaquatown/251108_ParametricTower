@@ -29,10 +29,10 @@ function App() {
         <section className="viewport">
           <TowerScene />
         </section>
-        <aside className="sidebar">
-          <ControlsPanel />
-        </aside>
       </main>
+      <footer className="controls-footer">
+        <ControlsPanel />
+      </footer>
     </div>
   )
 }

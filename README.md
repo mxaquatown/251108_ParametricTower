@@ -4,12 +4,13 @@
 
 ## Features
 - React + Vite dev stack with hot reload for rapid experimentation.
-- Three.js instanced slab system with parametric floor height, twist, and scale gradients.
+- Three.js-generated slab system with parametric twist/scale gradients and consistent floor spacing so towers grow upward naturally.
 - Independent twist and scale gradient modes (linear, ease-in/out) with min/max clamps for stability.
-- Floorplate side-count slider (3-10) plus a slab thickness slider to keep elements consistent regardless of tower height.
+- Floor spacing slider, slab thickness control, and floorplate side-count slider (3-10) to dial in proportions without compressing the stack.
 - Slider-driven parameters powered by Leva + Zustand with fast reset behavior.
 - Gradient color ramping between customizable endpoints using chroma-js helpers, baked per-vertex so each slab shows the transition clearly alongside refreshed lighting.
-- Optional auto-rotate orbit controls for hands-free review.
+- Optional auto-rotate orbit controls plus grouped Leva folders for Structure, Gradients, Display, and Export.
+- Export folder in the Leva panel downloads the current mesh (with per-vertex colors) as an OBJ straight to your browser's downloads folder.
 
 ## Getting Started
 1. Install dependencies: `npm install`
@@ -17,8 +18,8 @@
 3. Open the printed localhost URL (defaults to `http://localhost:5173`) to explore the generator.
 
 ## Controls
-- Use the floating Leva panel to adjust floor count, tower height, radius, slab thickness, and the number of polygon sides (3-10), along with twist/scale ranges.
+- Use the floating Leva panel folders (Structure, Gradients, Display) to adjust floor count, floor spacing, radius, slab thickness, and the number of polygon sides (3-10), along with twist/scale ranges.
 - Start/End color pickers drive the vertical gradient; dropdown eases provide independent twist/scale progression.
 - Toggle Auto Rotate to slowly spin the camera around the tower for presentations.
-- Use the Reset button beneath the panel description (in the sidebar) to jump back to defaults.
+- Use the `Export` folder to download the OBJ at any time, and the footer button to reset everything back to defaults.
 - Navigate the viewport with the mouse: left-drag orbit, right-drag pan, scroll zoom.

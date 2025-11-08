@@ -30,7 +30,7 @@ const getBaseGeometry = (sides: number) => {
   return geometry.clone()
 }
 
-const buildTowerGeometry = (params: TowerParams) => {
+export const buildTowerGeometry = (params: TowerParams) => {
   const baseGeometry = getBaseGeometry(params.floorSides)
   const basePositions = baseGeometry.attributes.position
   const baseNormals = baseGeometry.attributes.normal
@@ -54,8 +54,8 @@ const buildTowerGeometry = (params: TowerParams) => {
   const colorScale = chroma.scale([params.colorStart, params.colorEnd])
 
   const thickness = Math.max(0.05, params.slabThickness)
-  const spacing = params.floors <= 1 ? 0 : params.totalHeight / (params.floors - 1)
-  const startY = params.floors <= 1 ? 0 : -params.totalHeight / 2
+  const spacing = Math.max(thickness * 0.6, params.floorSpacing)
+  const baseY = thickness / 2
 
   const position = new THREE.Vector3()
   const normal = new THREE.Vector3()
@@ -70,7 +70,7 @@ const buildTowerGeometry = (params: TowerParams) => {
     const twist = twistStart + twistRange * twistEase(clamp01(linearT))
     const radiusScale = THREE.MathUtils.lerp(params.scaleMin, params.scaleMax, scaleEase(clamp01(linearT)))
     const radius = Math.max(0.05, params.baseRadius * radiusScale)
-    const y = params.floors === 1 ? 0 : startY + floor * spacing
+    const y = floor * spacing + baseY
 
     position.set(0, y, 0)
     euler.set(0, twist, 0)

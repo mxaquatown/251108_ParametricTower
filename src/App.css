@@ -53,8 +53,7 @@
 .app__layout {
   flex: 1;
   display: flex;
-  gap: 1.5rem;
-  padding: 0 2rem 2rem 2rem;
+  padding: 0 2rem 1.5rem 2rem;
   min-height: 0;
 }
 
@@ -65,7 +64,7 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.45);
   position: relative;
-  min-height: 420px;
+  min-height: 60vh;
   overflow: hidden;
 }
 
@@ -74,46 +73,48 @@
   height: 100%;
 }
 
-.sidebar {
-  width: min(360px, 100%);
-  max-width: 360px;
-  background: rgba(6, 8, 16, 0.85);
-  border-radius: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 1.5rem;
-  backdrop-filter: blur(20px);
-  align-self: stretch;
-  display: flex;
+.controls-footer {
+  padding: 0 2rem 2rem 2rem;
 }
 
 .controls-panel {
+  width: 100%;
+  background: rgba(6, 8, 16, 0.75);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem 1.5rem;
+  backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.controls-panel h2 {
-  margin: 0;
-  font-size: 1.3rem;
+.controls-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.controls-panel p {
+.hint {
   margin: 0;
   color: #a2b4dc;
 }
 
-.controls-panel small {
-  color: #7b8aa9;
+.controls-panel__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .controls-panel__reset {
-  margin-top: 0.5rem;
   border-radius: 999px;
   border: 1px solid rgba(126, 160, 255, 0.5);
   background: linear-gradient(120deg, rgba(126, 160, 255, 0.2), rgba(255, 138, 207, 0.15));
   color: #e6edff;
-  padding: 0.5rem 1.5rem;
-  font-size: 0.95rem;
+  padding: 0.45rem 1.5rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: border-color 200ms ease, transform 200ms ease;
 }
@@ -123,14 +124,17 @@
   transform: translateY(-1px);
 }
 
+.controls-panel small {
+  color: #7b8aa9;
+}
+
 @media (max-width: 960px) {
   .app__layout {
-    flex-direction: column;
+    padding: 0 1.5rem 1rem;
   }
 
-  .sidebar {
-    width: 100%;
-    max-width: none;
+  .controls-footer {
+    padding: 0 1.5rem 1.5rem;
   }
 }
 
@@ -140,6 +144,15 @@
   }
 
   .app__layout {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0 1rem 1rem;
+  }
+
+  .controls-footer {
+    padding: 0 1rem 1.5rem;
+  }
+
+  .controls-panel__actions {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

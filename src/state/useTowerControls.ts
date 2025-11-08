@@ -4,7 +4,7 @@ export type GradientMode = 'linear' | 'easeIn' | 'easeOut' | 'easeInOut'
 
 export type TowerParams = {
   floors: number
-  totalHeight: number
+  floorSpacing: number
   baseRadius: number
   slabThickness: number
   floorSides: number
@@ -28,10 +28,10 @@ type TowerStore = {
 
 const baseDefaults: TowerParams = {
   floors: 48,
-  totalHeight: 160,
+  floorSpacing: 3.2,
   baseRadius: 6,
   slabThickness: 1.1,
-  floorSides: 10,
+  floorSides: 3,
   autoRotate: false,
   twistMin: 0,
   twistMax: 260,
@@ -39,8 +39,8 @@ const baseDefaults: TowerParams = {
   scaleMin: 0.4,
   scaleMax: 1,
   scaleGradient: 'easeOut',
-  colorStart: '#54d2ff',
-  colorEnd: '#ff8ccf',
+  colorStart: '#03d7f2',
+  colorEnd: '#f50ede',
 }
 
 export const createDefaultParams = (): TowerParams => ({
