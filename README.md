@@ -17,6 +17,11 @@
 2. Start the dev server: `npm run dev`
 3. Open the printed localhost URL (defaults to `http://localhost:5173`) to explore the generator.
 
+## GitHub Pages
+- The Vite config sets `base: './'` so all assets resolve with relative paths in GitHub Pages.
+- Build the static site with `npm run build`; the output in `dist/` can be pushed to the `gh-pages` branch (or uploaded via Actions) and will run under `https://<user>.github.io/<repo>/`.
+- Remember to serve the `dist` folder contents as-is; no additional path tweaks are required.
+
 ## Controls
 - Use the floating Leva panel folders (Structure, Gradients, Display) to adjust floor count, floor spacing, radius, slab thickness, and the number of polygon sides (3-10), along with twist/scale ranges.
 - Start/End color pickers drive the vertical gradient; dropdown eases provide independent twist/scale progression.
