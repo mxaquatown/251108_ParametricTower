@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const repoName = process.env.REPO_NAME || '251108_ParametricTower'
+const repoName = '251108_ParametricTower'
+const base = process.env.NODE_ENV === 'production' ? `/${repoName}/` : '/'
 
-// https://vite.dev/config/
 export default defineConfig({
-  base: repoName ? `/${repoName}/` : './',
+  base,
   plugins: [react()],
 })
