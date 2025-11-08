@@ -12,10 +12,19 @@
 - Optional auto-rotate orbit controls plus grouped Leva folders for Structure, Gradients, Display, and Export (with a custom Bezier graph for the scale gradient).
 - Export folder in the Leva panel downloads the current mesh (with per-vertex colors) as an OBJ straight to your browser's downloads folder.
 
-## Getting Started
-1. Install dependencies: `npm install`
-2. Start the dev server: `npm run dev`
-3. Open the printed localhost URL (defaults to `http://localhost:5173`) to explore the generator.
+## Local Development (main branch)
+1. Checkout `main`: `git checkout main`
+2. Install deps: `npm install`
+3. Start dev server: `npm run dev`
+4. Open the printed localhost URL (defaults to `http://localhost:5173`) to iterate locally.
+
+## GitHub Pages Deployment (gh-pages branch)
+1. Checkout the deployment branch: `git checkout gh-pages`
+2. Install deps if needed: `npm install`
+3. Build the site: `npm run build`
+4. Copy the generated `/dist` directory to `/docs` (already tracked). The provided workflow uses `docs/` plus a `.nojekyll` file so GitHub Pages can serve hashed assets.
+5. Commit the updated `docs/` folder and push `gh-pages`. In the repository settings, point GitHub Pages to Branch: `gh-pages`, Folder: `/docs`.
+6. Live demo: https://mxaquatown.github.io/251108_ParametricTower/
 
 ## Controls
 - Use the floating Leva panel folders (Structure, Gradients, Display) to adjust floor count, floor spacing, radius, slab thickness, and the number of polygon sides (3-10), along with twist/scale ranges.
