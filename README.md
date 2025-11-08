@@ -9,7 +9,7 @@
 - Floor spacing slider, slab thickness control, and floorplate side-count slider (3-10) to dial in proportions without compressing the stack.
 - Slider-driven parameters powered by Leva + Zustand with fast reset behavior.
 - Gradient color ramping between customizable endpoints using chroma-js helpers, baked per-vertex so each slab shows the transition clearly alongside refreshed lighting.
-- Optional auto-rotate orbit controls plus grouped Leva folders for Structure, Gradients, Display, and Export.
+- Optional auto-rotate orbit controls plus grouped Leva folders for Structure, Gradients, Display, and Export (with a custom Bezier graph for the scale gradient).
 - Export folder in the Leva panel downloads the current mesh (with per-vertex colors) as an OBJ straight to your browser's downloads folder.
 
 ## Getting Started
@@ -21,5 +21,5 @@
 - Use the floating Leva panel folders (Structure, Gradients, Display) to adjust floor count, floor spacing, radius, slab thickness, and the number of polygon sides (3-10), along with twist/scale ranges.
 - Start/End color pickers drive the vertical gradient; dropdown eases provide independent twist/scale progression.
 - Toggle Auto Rotate to slowly spin the camera around the tower for presentations.
-- Use the `Export` folder to download the OBJ at any time, and the footer button to reset everything back to defaults.
+- Toggle `Use Graph` inside the Gradients folder to edit the scale profile via a draggable Bezier curve; use the `Export` folder to download the OBJ at any time, and the footer button to reset everything back to defaults.
 - Navigate the viewport with the mouse: left-drag orbit, right-drag pan, scroll zoom.

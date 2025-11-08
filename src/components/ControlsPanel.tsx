@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { button, folder, useControls } from 'leva'
 import {
   createDefaultParams,
@@ -9,6 +9,7 @@ import {
   type TowerParams,
 } from '../state/useTowerControls'
 import { exportTowerToOBJ } from '../utils/exporters'
+import { ScaleGraphModal } from './ScaleGraphModal'
 
 const toControlValues = (params: TowerParams) => ({
   floors: params.floors,
@@ -34,6 +35,7 @@ export const ControlsPanel = () => {
   const defaults = useMemo(() => createDefaultParams(), [])
   const paramsRef = useRef(params)
   const controlSetterRef = useRef<((values: Record<string, unknown>) => void) | null>(null)
+  const [graphOpen, setGraphOpen] = useState(false)
 
   useEffect(() => {
     paramsRef.current = params
@@ -51,6 +53,10 @@ export const ControlsPanel = () => {
 
   const handleExportOBJ = () => {
     exportTowerToOBJ(paramsRef.current)
+  }
+
+  const handleGraphChange = (next: TowerParams['scaleGraph']) => {
+    setParam('scaleGraph', next)
   }
 
   const [, setControlValues] = useControls(
@@ -137,14 +143,14 @@ export const ControlsPanel = () => {
             step: 0.01,
             onChange: (value: number) => setParam('scaleMin', value),
           },
-    scaleMax: {
-      label: 'Scale Max',
-      value: defaults.scaleMax,
-      min: 0.2,
-      max: 10,
-      step: 0.01,
-      onChange: (value: number) => setParam('scaleMax', value),
-    },
+          scaleMax: {
+            label: 'Scale Max',
+            value: defaults.scaleMax,
+            min: 0.2,
+            max: 10,
+            step: 0.01,
+            onChange: (value: number) => setParam('scaleMax', value),
+          },
           scaleGradient: {
             label: 'Scale Gradient',
             value: defaults.scaleGradient,
@@ -156,6 +162,17 @@ export const ControlsPanel = () => {
             },
             onChange: (value: TowerParams['scaleGradient']) => setParam('scaleGradient', value),
           },
+          scaleGraphEnabled: {
+            label: 'Use Graph',
+            value: defaults.scaleGraphEnabled,
+            onChange: (value: boolean) => setParam('scaleGraphEnabled', value),
+          },
+          'Edit Graph': button(() => {
+            if (!paramsRef.current.scaleGraphEnabled) {
+              setParam('scaleGraphEnabled', true)
+            }
+            setGraphOpen(true)
+          }),
         },
         { collapsed: true },
       ),
@@ -194,19 +211,27 @@ export const ControlsPanel = () => {
   }, [setControlValues])
 
   return (
-    <div className="controls-panel">
-      <div className="controls-panel__content">
-        <p className="hint">
-          Sliders now live in grouped folders (Structure, Gradients, Display, Export) inside the Leva panel. Use the
-          folders to sculpt form, then grab OBJs directly from Export.
-        </p>
-        <div className="controls-panel__actions">
-          <button className="controls-panel__reset" onClick={handleReset}>
-            Reset to defaults
-          </button>
-          <small>Orbit: left drag · Pan: right drag · Zoom: scroll</small>
+    <>
+      <div className="controls-panel">
+        <div className="controls-panel__content">
+          <p className="hint">
+            Sliders now live in grouped folders (Structure, Gradients, Display, Export) inside the Leva panel. Use the
+            folders to sculpt form, then grab OBJs directly from Export.
+          </p>
+          <div className="controls-panel__actions">
+            <button className="controls-panel__reset" onClick={handleReset}>
+              Reset to defaults
+            </button>
+            <small>Orbit: left drag · Pan: right drag · Zoom: scroll</small>
+          </div>
         </div>
       </div>
-    </div>
+      <ScaleGraphModal
+        open={graphOpen}
+        value={params.scaleGraph}
+        onClose={() => setGraphOpen(false)}
+        onChange={handleGraphChange}
+      />
+    </>
   )
 }

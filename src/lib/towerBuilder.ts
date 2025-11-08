@@ -13,6 +13,37 @@ const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
 
 const baseGeometries = new Map<number, THREE.CylinderGeometry>()
 
+const solveCubicBezier = (t: number, p1: number, p2: number, epsilon = 1e-4) => {
+  const bezier = (u: number) => {
+    const iu = 1 - u
+    return 3 * iu * iu * u * p1 + 3 * iu * u * u * p2 + u * u * u
+  }
+
+  let low = 0
+  let high = 1
+  let guess = t
+
+  for (let i = 0; i < 20; i += 1) {
+    const value = bezier(guess) - t
+    if (Math.abs(value) < epsilon) {
+      return guess
+    }
+    if (value > 0) {
+      high = guess
+    } else {
+      low = guess
+    }
+    guess = (low + high) / 2
+  }
+  return guess
+}
+
+const evaluateBezier = (t: number, p1: { x: number; y: number }, p2: { x: number; y: number }) => {
+  const u = solveCubicBezier(t, p1.x, p2.x)
+  const iu = 1 - u
+  return 3 * iu * iu * u * p1.y + 3 * iu * u * u * p2.y + u * u * u
+}
+
 const getBaseGeometry = (sides: number) => {
   const clamped = Math.max(3, Math.min(128, Math.round(sides)))
   if (baseGeometries.has(clamped)) {
@@ -68,7 +99,11 @@ export const buildTowerGeometry = (params: TowerParams) => {
   for (let floor = 0; floor < params.floors; floor += 1) {
     const linearT = params.floors === 1 ? 0 : floor / (params.floors - 1)
     const twist = twistStart + twistRange * twistEase(clamp01(linearT))
-    const radiusScale = THREE.MathUtils.lerp(params.scaleMin, params.scaleMax, scaleEase(clamp01(linearT)))
+    const baseScaleT = clamp01(linearT)
+    const scaleT = params.scaleGraphEnabled
+      ? evaluateBezier(baseScaleT, params.scaleGraph.p1, params.scaleGraph.p2)
+      : scaleEase(baseScaleT)
+    const radiusScale = THREE.MathUtils.lerp(params.scaleMin, params.scaleMax, clamp01(scaleT))
     const radius = Math.max(0.05, params.baseRadius * radiusScale)
     const y = floor * spacing + baseY
 

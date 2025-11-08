@@ -2,6 +2,11 @@ import { create } from 'zustand'
 
 export type GradientMode = 'linear' | 'easeIn' | 'easeOut' | 'easeInOut'
 
+export type BezierPoint = {
+  x: number
+  y: number
+}
+
 export type TowerParams = {
   floors: number
   floorSpacing: number
@@ -15,6 +20,11 @@ export type TowerParams = {
   scaleMin: number
   scaleMax: number
   scaleGradient: GradientMode
+  scaleGraphEnabled: boolean
+  scaleGraph: {
+    p1: BezierPoint
+    p2: BezierPoint
+  }
   colorStart: string
   colorEnd: string
 }
@@ -39,6 +49,11 @@ const baseDefaults: TowerParams = {
   scaleMin: 0.4,
   scaleMax: 1,
   scaleGradient: 'easeOut',
+  scaleGraphEnabled: false,
+  scaleGraph: {
+    p1: { x: 0.25, y: 0.05 },
+    p2: { x: 0.75, y: 0.95 },
+  },
   colorStart: '#03d7f2',
   colorEnd: '#f50ede',
 }
